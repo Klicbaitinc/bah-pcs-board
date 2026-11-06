@@ -1,4 +1,5 @@
 # Weekly refresh + deploy to GitHub Pages.
+# An empty commit does not start this workflow: paths-ignore skips a push with no file changes.
 # BAH files change about once a year, with an occasional mid-year replacement,
 # so a Monday pull is enough. Push to main and manual dispatch also run it.
 #
