@@ -35,6 +35,8 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      pages: ${{ steps.pages.outcome }}
     env:
       SITE_URL: ${{ vars.SITE_URL || 'https://klicbaitinc.github.io' }}
       BASE_PATH: ${{ vars.BASE_PATH || '/bah-pcs-board' }}
@@ -93,15 +95,26 @@ jobs:
           fi
           git commit -m "BAH data refresh $(date -u +%F) [skip ci]"
           git push origin HEAD:main
-      - uses: actions/configure-pages@v5
+      - name: Configure GitHub Pages
+        id: pages
+        continue-on-error: true
+        uses: actions/configure-pages@v5
         with:
+          # Creates the site when this token is allowed to. On this repo it is not:
+          # the API returns 403 Resource not accessible by integration.
           enablement: true
+      - name: Pages site is not enabled yet
+        if: steps.pages.outcome != 'success'
+        run: |
+          echo "::warning::GitHub refused to create the Pages site (HTTP 403, Resource not accessible by integration). A repo admin has to open Settings → Pages and set Source to GitHub Actions. The next run of this workflow will upload and deploy."
       - uses: actions/upload-pages-artifact@v3
+        if: steps.pages.outcome == 'success'
         with:
           path: site
 
   deploy:
     needs: build
+    if: needs.build.outputs.pages == 'success'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
