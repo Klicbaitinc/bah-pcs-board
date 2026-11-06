@@ -25,7 +25,7 @@
       <li>That code has one monthly rate per pay grade with dependents, and one without.</li>
       <li>The PCS checklist is a list of costs to price. It does not tell you what to spend.</li>
     </ol>
-    <p><a class="btn" href="{{ base }}/pcs/">Open the PCS checklist</a> <a class="btn ghost" href="{{ base }}/mha/">Browse housing areas</a></p>
+    <p><a class="btn" href="{{ base }}/pcs/">Open the PCS checklist</a> <a class="btn ghost" href="{{ base }}/pcs-destinations/">Top PCS destinations</a> <a class="btn ghost" href="{{ base }}/mha/">Browse housing areas</a></p>
     {% if changed %}
     <h2 class="mt">File note</h2>
     <p>Inside the {{ rate_year }} ZIP, the current rate tables differ from the copies marked old for: {% for mha in changed %}<a href="{{ base }}/mha/{{ mha.code|lower }}/">{{ mha.name }} ({{ mha.code }})</a>{% if not loop.last %}, {% endif %}{% endfor %}. Pages for those areas say so.</p>

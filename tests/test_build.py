@@ -67,6 +67,48 @@ class BuildSiteTest(unittest.TestCase):
         self.assertIn("marked old", html)
         self.assertNotIn("$1,554", html)
 
+    def test_seo_aliases_and_hub(self):
+        liberty = self.read("duty-station", "fort-liberty-nc", "index.html")
+        self.assertIn('http-equiv="refresh"', liberty)
+        self.assertIn('url=/bah-pcs-board/duty-station/fort-bragg-pope-nc/"', liberty)
+        self.assertIn(f'href="{PUBLIC}/duty-station/fort-bragg-pope-nc/"', liberty)
+        self.assertIn("Fort Liberty (formerly Fort Bragg)", liberty)
+        self.assertIn("<title>2026 BAH Rates Fort Liberty, NC | BAH &amp; PCS Money Board</title>", liberty)
+        bragg = self.read("duty-station", "fort-bragg-pope-nc", "index.html")
+        self.assertIn("<title>2026 BAH Rates Fort Bragg/Pope, NC | BAH &amp; PCS Money Board</title>", bragg)
+        self.assertIn("Fort Bragg (formerly Fort Liberty)", bragg)
+        self.assertIn('"@type": "Dataset"', bragg)
+        hood = self.read("duty-station", "fort-hood-tx", "index.html")
+        self.assertIn("Fort Cavazos", hood)
+        bliss = self.read("duty-station", "fort-bliss-tx", "index.html")
+        self.assertIn('url=/bah-pcs-board/duty-station/el-paso-tx/"', bliss)
+        self.assertIn(f'href="{PUBLIC}/duty-station/el-paso-tx/"', bliss)
+        belvoir = self.read("duty-station", "fort-belvoir-va", "index.html")
+        self.assertIn(f'href="{PUBLIC}/duty-station/washington-dc-metro-area/"', belvoir)
+        self.assertIn("Washington, DC Metro Area", belvoir)
+        tacoma = self.read("duty-station", "tacoma-wa", "index.html")
+        self.assertIn("Joint Base Lewis-McChord", tacoma)
+        self.assertIn("Fort Lewis", tacoma)
+        mha = self.read("mha", "ca038", "index.html")
+        self.assertIn('"@type": "Dataset"', mha)
+        home = self.read("index.html")
+        self.assertIn('href="/bah-pcs-board/pcs-destinations/"', home)
+        hub = self.read("pcs-destinations", "index.html")
+        self.assertIn("Top PCS destinations 2026 BAH", hub)
+        self.assertIn("not a rating", hub)
+        for slug in (
+            "fort-bragg-pope-nc", "fort-hood-tx", "camp-pendleton-ca", "san-diego-ca",
+            "norfolk-portsmouth-va", "fort-campbell-ky", "camp-lejeune-nc", "fort-stewart-ga",
+        ):
+            self.assertIn(f'/duty-station/{slug}/', hub)
+        sitemap = self.read("sitemap.xml")
+        for slug in (
+            "fort-liberty-nc", "fort-cavazos-tx", "joint-base-lewis-mcchord-wa",
+            "jblm-wa", "fort-lewis-wa", "fort-bliss-tx", "fort-belvoir-va",
+        ):
+            self.assertIn(f"<loc>{PUBLIC}/duty-station/{slug}/</loc>", sitemap)
+        self.assertIn(f"<loc>{PUBLIC}/pcs-destinations/</loc>", sitemap)
+
     def test_duty_station_and_alias(self):
         page = self.read("duty-station", "fort-bragg-pope-nc", "index.html")
         self.assertIn("NC182", page)

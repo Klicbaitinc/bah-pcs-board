@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Top PCS destinations 2026 BAH</h1>
+<p class="lede">Common stateside PCS areas and the {{ rate_year }} housing-allowance page for each one. This list is not a rating of bases, towns, or housing.</p>
+<ul class="cards">
+{% for item in destinations %}
+<li><a href="{{ base }}/duty-station/{{ item.slug }}/"><b>{{ item.label }}</b><span>{% if item.note %}{{ item.note }} {% endif %}E-5 with dependents {{ item.e5 | money }}</span></a></li>
+{% endfor %}
+</ul>
+<p class="mt">Each page lists every pay grade, with dependents and without. <a href="{{ base }}/pcs/">Open the PCS checklist</a>.</p>
+{% endblock %}

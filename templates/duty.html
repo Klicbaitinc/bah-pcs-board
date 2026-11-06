@@ -1,14 +1,20 @@
 {% extends "base.html" %}{% from "_macros.html" import rate_table, zip_list, source_line, changed_note, county_note with context %}
+{% block head %}
+{% if refresh_url %}<meta http-equiv="refresh" content="0; url={{ refresh_url }}">{% endif %}
+{% if dataset %}<script type="application/ld+json">{{ dataset | tojson }}</script>{% endif %}
+{% endblock %}
 {% block content %}
 <p class="crumbs"><a href="{{ base }}/">Home</a> · <a href="{{ base }}/duty-station/">Duty stations</a> · {{ heading }}</p>
 <h1>{{ heading }}</h1>
 {% if alias_of %}
 <p class="lede">{{ heading }} is part of the {{ mha.name }} housing area ({{ mha.code }}). The BAH below is the published rate for that area. This page is not a rating of the installation.</p>
+{% if refresh_url %}<p><a href="{{ refresh_url }}">Open the {{ mha.name }} rate page</a>.</p>{% endif %}
 {% elif mha.kind == "county" %}
 <p class="lede">Duty ZIPs in {{ mha.name }} ({{ mha.code }}) use the rates below. There is no base name on this row. This page is not a rating of the counties in the group.</p>
 {% else %}
 <p class="lede">Duty station area: {{ mha.name }} ({{ mha.code }}). The table is the {{ rate_year }} BAH for this housing area, with dependents and without. This page is not a rating of the installation or the town.</p>
 {% endif %}
+{% if name_note %}<p class="note">{{ name_note }}</p>{% endif %}
 {{ county_note(mha) }}
 {{ changed_note(mha) }}
 {% if aliases and not alias_of %}
