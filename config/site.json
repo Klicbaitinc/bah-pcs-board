@@ -1,0 +1,17 @@
+{
+  "name": "BAH & PCS Money Board",
+  "owner": "Kenneth Davis",
+  "contact": "kennethdavis+bah@mail.grokbot.com",
+  "default_site_url": "https://klicbaitinc.github.io",
+  "default_base_path": "/bah-pcs-board",
+  "source_page": "https://www.travel.dod.mil/Allowances/Basic-Allowance-for-Housing/BAH-Rate-Files-Alt",
+  "lookup_page": "https://www.travel.dod.mil/Allowances/Basic-Allowance-for-Housing/BAH-Rate-Lookup/",
+  "bah_page": "https://www.travel.dod.mil/Allowances/Basic-Allowance-for-Housing/",
+  "fmr_chapter": "https://comptroller.defense.gov/Portals/45/documents/fmr/current/07a/07a_26.pdf",
+  "onesource": "https://www.militaryonesource.mil/moving-housing/moving/",
+  "mypay": "https://mypay.dfas.mil/",
+  "newsletter": {
+    "heading": "Email list",
+    "body": "The BAH and PCS email list is not open yet. This is a placeholder. This static site does not collect or store email addresses."
+  }
+}

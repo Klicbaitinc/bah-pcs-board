@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ page_title }}</title>
+<meta name="description" content="{{ description }}">
+<link rel="canonical" href="{{ public_url }}{{ canonical }}">
+<meta property="og:title" content="{{ page_title }}">
+<meta property="og:description" content="{{ description }}">
+<meta property="og:type" content="website">
+<meta property="og:url" content="{{ public_url }}{{ canonical }}">
+<meta name="robots" content="{{ robots }}">
+<meta name="theme-color" content="#1e3a5f">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231e3a5f'/%3E%3Cpath d='M6 14 L16 6 L26 14 V26 H6 Z' fill='%23f4f1ea'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="{{ base }}/static/style.css">
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<header class="top">
+  <div class="wrap nav">
+    <a class="brand" href="{{ base }}/">BAH &amp; PCS Money Board</a>
+    <nav aria-label="Primary">
+      <a href="{{ base }}/">Look up</a>
+      <a href="{{ base }}/mha/">Areas</a>
+      <a href="{{ base }}/duty-station/">Duty stations</a>
+      <a href="{{ base }}/zip/">ZIPs</a>
+      <a href="{{ base }}/pcs/">PCS checklist</a>
+      <a href="{{ base }}/about/">About</a>
+    </nav>
+    <form class="lookup" role="search" action="{{ base }}/zip/" method="get">
+      <label class="sr" for="nav-q">Search ZIP, housing area, or duty station</label>
+      <input id="nav-q" class="lookup-input" type="search" name="q" placeholder="ZIP, area, or base" autocomplete="off" enterkeyhint="search" data-lookup>
+      <ul class="lookup-results" hidden></ul>
+    </form>
+  </div>
+</header>
+<main id="content" class="wrap">
+{% block content %}{% endblock %}
+</main>
+<footer class="foot">
+  <div class="wrap">
+    <p><strong>Not a DoD site.</strong> Rates are copied from the official BAH file and can be wrong or out of date. Your finance office, your LES, and the <a href="{{ links.lookup_page }}">DTMO BAH lookup</a> are the authority. Not pay or tax advice. This site is not investment advice. No ratings.</p>
+    <p>Affiliate placeholders may earn a commission later. They do not change the rates. <a href="{{ base }}/disclosure/">Affiliate disclosure</a>.</p>
+    <p class="muted">{{ rate_year }} file · SHA-256 {{ sha_short }} · File date {{ file_date }} · Retrieved {{ retrieved }} UTC · © {{ year }} {{ owner }} · <a href="{{ base }}/about/">About</a> · <a href="{{ base }}/disclosure/">Disclosure</a> · <a href="{{ base }}/privacy/">Privacy</a></p>
+  </div>
+</footer>
+<script>window.SITE_BASE={{ base|tojson }};</script>
+<script src="{{ base }}/static/app.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+{
+  "items": [
+    {
+      "id": "penske",
+      "name": "Penske",
+      "network": "FlexOffers",
+      "kicker": "Affiliate placeholder · FlexOffers",
+      "headline": "Penske truck rental",
+      "body": "A rental truck is one way to haul a personally procured move. This Penske link is not connected yet.",
+      "button": "Penske link not connected",
+      "url": "",
+      "disclosure": "Affiliate placeholder for Penske through FlexOffers. When a tracking link is added, we may earn a commission if you rent through it, at no extra cost to you. A commission does not change any BAH rate on this site."
+    },
+    {
+      "id": "uhaul",
+      "name": "U-Haul",
+      "network": "FlexOffers",
+      "kicker": "Affiliate placeholder · FlexOffers",
+      "headline": "U-Haul truck rental",
+      "body": "U-Haul is the other common truck option for a do-it-yourself move. This link is not connected yet.",
+      "button": "U-Haul link not connected",
+      "url": "",
+      "disclosure": "Affiliate placeholder for U-Haul through FlexOffers. When a tracking link is added, we may earn a commission if you rent through it, at no extra cost to you. A commission does not change any BAH rate on this site."
+    },
+    {
+      "id": "raisin",
+      "name": "Raisin",
+      "network": "affiliate",
+      "kicker": "Affiliate placeholder · savings",
+      "headline": "Raisin savings accounts",
+      "body": "Raisin lists savings accounts from banks. This is not a recommendation to open an account, and it is not investment advice. The link is not connected yet.",
+      "button": "Raisin link not connected",
+      "url": "",
+      "disclosure": "Affiliate placeholder. If a Raisin link is added later, we may earn a commission at no extra cost to you. A savings account is not an investment. Nothing on this site tells you where to keep money."
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<article class="prose">
+<h1>Affiliate disclosure</h1>
+<p>Some cards on this site are affiliate placeholders. {{ owner }} may earn a commission if a link is connected later and you use it. That would not raise the price you pay. A commission does not change a BAH rate, a ZIP mapping, or a checklist item. Nobody pays to add, remove, or rewrite a rate.</p>
+<p>The placeholders today:</p>
+<ul>
+{% for item in affiliate_items %}
+  <li><b>{{ item.name }}</b> ({{ item.network }}). {% if item.url %}The link is connected.{% else %}The link is not connected yet.{% endif %} {{ item.disclosure }}</li>
+{% endfor %}
+</ul>
+<p>Penske and U-Haul are listed as truck-rental placeholders through FlexOffers. They are side by side on purpose. This site does not rank one above the other and does not review either company.</p>
+<p>Raisin lists savings accounts from banks. A savings account is not an investment. The card is not investment advice and not a suggestion to move money.</p>
+<p><b>Not pay, tax, or investment advice.</b> Rates are data from a DoD file. The checklist is a list of questions. You are responsible for your own decisions. Confirm rates on the <a href="{{ links.lookup_page }}">official BAH lookup</a>.</p>
+<p>Questions: <a href="mailto:{{ contact }}">{{ contact }}</a>.</p>
+</article>
+{% endblock %}

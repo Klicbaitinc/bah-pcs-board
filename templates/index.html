@@ -1,0 +1,45 @@
+{% extends "base.html" %}{% from "_macros.html" import affiliates, signup with context %}
+{% block content %}
+<section class="hero">
+  <h1>BAH by ZIP, housing area, and duty station.</h1>
+  <p class="lede">Monthly Basic Allowance for Housing from the official DoD rate file, with dependents and without, for every pay grade. Free, no login, no ratings.</p>
+  <form class="lookup lookup-lg" role="search" action="{{ base }}/zip/" method="get">
+    <label for="home-q">Duty-station ZIP, MHA code, city, or base</label>
+    <input id="home-q" class="lookup-input" type="search" name="q" placeholder="92101, CA038, Fort Bragg, San Diego" autocomplete="off" data-lookup>
+    <ul class="lookup-results" hidden></ul>
+  </form>
+  <p class="muted small">Use the ZIP of the permanent duty station. A ZIP you might rent in can sit in a different housing area.</p>
+  <noscript><p>JavaScript is off. Browse <a href="{{ base }}/mha/">housing areas</a> or <a href="{{ base }}/duty-station/">duty stations</a>. Each area page links its ZIP codes.</p></noscript>
+  <div class="stats">
+    <div class="stat"><b>{{ rate_year }}</b><span>rate year in the file</span></div>
+    <div class="stat"><b>{{ n_named }}</b><span>named housing areas</span></div>
+    <div class="stat"><b>{{ n_county }}</b><span>county cost groups</span></div>
+    <div class="stat"><b>{{ n_zips | comma }}</b><span>ZIP codes in the file</span></div>
+  </div>
+</section>
+<div class="grid">
+  <div>
+    <h2>How a lookup works</h2>
+    <ol class="steps">
+      <li>DoD maps the duty ZIP to a military housing area (an MHA code) or to a county cost group.</li>
+      <li>That code has one monthly rate per pay grade with dependents, and one without.</li>
+      <li>The PCS checklist is a list of costs to price. It does not tell you what to spend.</li>
+    </ol>
+    <p><a class="btn" href="{{ base }}/pcs/">Open the PCS checklist</a> <a class="btn ghost" href="{{ base }}/mha/">Browse housing areas</a></p>
+    {% if changed %}
+    <h2 class="mt">File note</h2>
+    <p>Inside the {{ rate_year }} ZIP, the current rate tables differ from the copies marked old for: {% for mha in changed %}<a href="{{ base }}/mha/{{ mha.code|lower }}/">{{ mha.name }} ({{ mha.code }})</a>{% if not loop.last %}, {% endif %}{% endfor %}. Pages for those areas say so.</p>
+    {% endif %}
+    <h2 class="mt">What this board will not do</h2>
+    <ul>
+      <li>It does not rate bases, cities, movers, banks, or landlords.</li>
+      <li>It does not decide what you are entitled to. Finance does that.</li>
+      <li>It does not give investment advice. A savings-account placeholder is not a recommendation.</li>
+    </ul>
+  </div>
+  <div class="side-col">
+    {{ signup() }}
+    {{ affiliates("home") }}
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<article class="prose">
+<h1>About this board</h1>
+<p>The BAH &amp; PCS Money Board is a free, no-login lookup of Basic Allowance for Housing and a checklist of move costs. {{ owner }} runs it independently. It is not the Department of Defense, not a finance office, and not a bank.</p>
+<p>Contact: <a href="mailto:{{ contact }}">{{ contact }}</a>.</p>
+
+<h2>Where the rates come from</h2>
+<p>Each build reads the official ASCII ZIP linked from the <a href="{{ source_page }}">DoD BAH rate-files page</a>. The file used here is <a href="{{ source_url }}">{{ manifest_filename }}</a>, SHA-256 <span class="mono">{{ sha256 }}</span>, file date {{ file_date }}.</p>
+<ul>
+  <li>{{ members.with_dependents }}: monthly rate with dependents, by MHA and pay grade.</li>
+  <li>{{ members.without_dependents }}: monthly rate without dependents.</li>
+  <li>{{ members.zip_mha }}: duty ZIP to MHA code.</li>
+  <li>{{ members.mha_names }}: the DoD name for each code.</li>
+</ul>
+<p>The ZIP also contains copies marked old. Those copies are not shown, except that a page says so when the current file and the old copy differ. {% if changed %}In this file that is {% for mha in changed %}{{ mha.name }} ({{ mha.code }}){% if not loop.last %}, {% endif %}{% endfor %}.{% else %}In this file, no area differs.{% endif %}</p>
+<p>O-8, O-9, and O-10 repeat the O-7 amount, which is how DoD publishes "O-7 and above." County cost groups (codes starting with ZZ) are rows in the same file for ZIPs that are not in a named housing area. ZIP codes mapped to XX499 have no rate row. This site does not fill those in.</p>
+<p>{{ n_mhas }} housing-area rows, {{ n_zips | comma }} ZIP codes. Nothing is estimated.</p>
+
+<h2>What BAH is</h2>
+<p>BAH is a housing allowance for a member assigned in the 50 states or D.C. when government quarters are not provided. It depends on the duty location, pay grade, and whether the member has dependents. DoD says it is not intended to cover all housing costs. The member can spend more or less than the rate. <a href="{{ links.bah_page }}">DTMO's BAH page</a> is the program description. Entitlement rules are in <a href="{{ links.fmr_chapter }}">FMR Volume 7A, Chapter 26</a>.</p>
+<p>Individual rate protection, in DTMO's words, keeps a member from receiving a lower rate than the year before while eligibility stays the same. It stops when status changes, including a PCS, a reduction in grade, or a change in dependency. This site does not apply rate protection to your pay. It shows the published table.</p>
+<p>BAH-Differential, partial BAH, and reserve-component or transient rates are not in this locality file. Ask finance, or read the FMR, for those.</p>
+
+<h2>What this site does not do</h2>
+<ul>
+  <li>No ratings of bases, towns, movers, trucks, or banks.</li>
+  <li>No pay determination. The LES and the finance office control that.</li>
+  <li>No investment, tax, or legal advice. The Raisin card is an affiliate placeholder for savings accounts, not a recommendation.</li>
+</ul>
+
+<h2>Newsletter</h2>
+<p>{{ newsletter.body }}</p>
+<p><a href="{{ base }}/disclosure/">Affiliate disclosure</a> · <a href="{{ base }}/privacy/">Privacy</a></p>
+</article>
+{% endblock %}

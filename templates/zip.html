@@ -1,0 +1,12 @@
+{% extends "base.html" %}{% from "_macros.html" import rate_table, source_line, changed_note, county_note with context %}
+{% block content %}
+<p class="crumbs"><a href="{{ base }}/">Home</a> · <a href="{{ base }}/zip/">ZIP codes</a> · {{ zip_code }}</p>
+<h1>BAH for ZIP {{ zip_code }}</h1>
+<p class="lede">DoD maps duty ZIP {{ zip_code }} to {{ mha.name }} ({{ mha.code }}). The rates below are that area's {{ rate_year }} BAH, with dependents and without.</p>
+<p class="note">Use the ZIP of the permanent duty station. This is not a promise of what you will be paid. Your orders and your finance office decide the entitlement. <a href="{{ links.lookup_page }}">Check the official lookup</a>.</p>
+{{ county_note(mha) }}
+{{ changed_note(mha) }}
+{{ rate_table(mha) }}
+<p class="actions"><a class="btn" href="{{ base }}/mha/{{ mha.code|lower }}/">Full area page</a> <a class="btn ghost" href="{{ base }}/duty-station/{{ mha.slug }}/">Duty station</a> <a class="btn ghost" href="{{ base }}/pcs/">PCS checklist</a></p>
+{{ source_line() }}
+{% endblock %}

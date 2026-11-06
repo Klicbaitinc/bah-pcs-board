@@ -1,0 +1,111 @@
+# Weekly refresh + deploy to GitHub Pages.
+# BAH files change about once a year, with an occasional mid-year replacement,
+# so a Monday pull is enough. Push to main and manual dispatch also run it.
+#
+# A changed ZIP is committed back to main. That commit only touches data/
+# and is marked [skip ci]. This workflow ignores pushes that only change
+# data/, so the data commit cannot start another run.
+#
+# Pages source must be "GitHub Actions" (Settings → Pages). configure-pages
+# below asks GitHub to create the site when it does not exist yet.
+#
+# Optional repository variables:
+#   SITE_URL   origin only, default https://klicbaitinc.github.io
+#   BASE_PATH  path prefix, default /bah-pcs-board (use / for a user site)
+name: Refresh data and deploy site
+
+on:
+  schedule:
+    - cron: "20 6 * * 1"   # 06:20 UTC Mondays
+  push:
+    branches: [main]
+    paths-ignore:
+      - "data/**"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      SITE_URL: ${{ vars.SITE_URL || 'https://klicbaitinc.github.io' }}
+      BASE_PATH: ${{ vars.BASE_PATH || '/bah-pcs-board' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Download the DoD BAH ASCII bundle
+        id: fetch
+        continue-on-error: true
+        run: python scripts/fetch_bah.py
+      - name: Stop if there is no rate file
+        if: steps.fetch.outcome == 'failure'
+        run: |
+          if [ ! -f data/manifest.json ]; then
+            echo "::error::No BAH ZIP in the repo and the DoD download failed."
+            exit 1
+          fi
+          echo "::warning::DoD download failed. Building the BAH ZIP already in the repo. travel.dod.mil returns 403 to non-browser clients; this job uses a browser header set over HTTP/2."
+      - name: Test the parser and build the site
+        run: python -m unittest discover -s tests -v
+      - name: Check links under the project base path
+        run: |
+          set -euo pipefail
+          base="${BASE_PATH%/}"
+          if [ "$base" = "/" ]; then base=""; fi
+          origin="${SITE_URL%/}"
+          public="${origin}${base}"
+          grep -q "href=\"${base}/static/style.css\"" site/index.html
+          grep -q "src=\"${base}/static/app.js\"" site/index.html
+          grep -q "href=\"${public}/\"" site/index.html
+          grep -q "Sitemap: ${public}/sitemap.xml" site/robots.txt
+          grep -q "<loc>${public}/</loc>" site/sitemap.xml
+          grep -q "<loc>${public}/zip/92101/</loc>" site/sitemap.xml
+          grep -q "\\$3,975" site/zip/92101/index.html
+          grep -q "not investment advice" site/index.html
+          grep -q "FlexOffers" site/disclosure/index.html
+          test -f site/pcs/index.html
+          test -f site/duty-station/san-diego-ca/index.html
+          echo "base path ok (${public})"
+      - name: Commit updated rate file
+        if: steps.fetch.outcome == 'success'
+        run: |
+          set -euo pipefail
+          git config user.name "bah-pcs-board-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/manifest.json data/raw
+          if git diff --cached --quiet; then
+            echo "rate file unchanged"
+            exit 0
+          fi
+          git commit -m "BAH data refresh $(date -u +%F) [skip ci]"
+          git push origin HEAD:main
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: true
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

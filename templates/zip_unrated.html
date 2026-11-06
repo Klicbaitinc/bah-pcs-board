@@ -1,0 +1,8 @@
+{% extends "base.html" %}{% from "_macros.html" import source_line with context %}
+{% block content %}
+<p class="crumbs"><a href="{{ base }}/">Home</a> · <a href="{{ base }}/zip/">ZIP codes</a> · {{ zip_code }}</p>
+<h1>No BAH rate for ZIP {{ zip_code }}</h1>
+<p class="lede">DoD's ZIP file maps {{ zip_code }} to {{ mha_code }}{% if raw_name %} ({{ raw_name }}){% endif %}. That code has no row in the with-dependents or without-dependents rate tables, so this file has no monthly BAH for it.</p>
+<p>Many of these ZIPs are outside the 50 states and D.C. Overseas housing is a different allowance. This site does not invent a rate. Confirm with your finance office and the <a href="{{ links.lookup_page }}">official BAH lookup</a>.</p>
+{{ source_line() }}
+{% endblock %}

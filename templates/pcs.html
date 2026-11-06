@@ -1,0 +1,92 @@
+{% extends "base.html" %}{% from "_macros.html" import affiliates, signup with context %}
+{% block content %}
+<h1>PCS move cost checklist</h1>
+<p class="lede">A list of costs to price on a stateside move. It is not a quote, not a budget you should hit, and not a rating of movers. Amounts depend on your orders. Ask transportation and finance what you are authorized.</p>
+<p class="muted small">Check items off while you read. Refreshing the page clears them. Nothing is saved or sent.</p>
+
+<div class="grid">
+  <div>
+    <section class="card check-card">
+      <h2>Orders and the official move</h2>
+      <ul class="checks">
+        <li><label><input type="checkbox"> Read the orders. Note the duty station, report date, and dependents on the orders.</label></li>
+        <li><label><input type="checkbox"> Ask the transportation office whether the government arranges household goods, whether you can do a personally procured move, or both.</label></li>
+        <li><label><input type="checkbox"> If you move yourself, ask which receipts and weight tickets they want. This page does not calculate an incentive.</label></li>
+        <li><label><input type="checkbox"> Ask whether storage or an extra pickup is authorized before you book it.</label></li>
+      </ul>
+    </section>
+
+    <section class="card check-card">
+      <h2>Travel to the new station</h2>
+      <ul class="checks">
+        <li><label><input type="checkbox"> Driving: fuel, lodging, meals, tolls. Ask finance about mileage and per diem for your orders. Do not use a number from a blog.</label></li>
+        <li><label><input type="checkbox"> Flying: which tickets the orders cover, and which they do not.</label></li>
+        <li><label><input type="checkbox"> A second vehicle: drive it, ship it, or sell it. Get a shipping quote if you ship it.</label></li>
+        <li><label><input type="checkbox"> Pets: cabin or cargo fees, deposits, and any quarantine. Most of this is out of pocket.</label></li>
+      </ul>
+    </section>
+
+    <section class="card check-card">
+      <h2>Household goods</h2>
+      <ul class="checks">
+        <li><label><input type="checkbox"> Weight. Ask transportation for your weight allowance and what an overage would cost. Do not guess the pounds.</label></li>
+        <li><label><input type="checkbox"> Packing materials, boxes you buy yourself, and items the carrier will not take.</label></li>
+        <li><label><input type="checkbox"> Cleaning and any damage clause at the place you are leaving.</label></li>
+        <li><label><input type="checkbox"> A rental truck, if you haul it yourself. Penske and U-Haul placeholders are on this page. They are not reviews.</label></li>
+      </ul>
+    </section>
+
+    <section class="card check-card">
+      <h2>Housing money at the new duty station</h2>
+      <ul class="checks">
+        <li><label><input type="checkbox"> Look up the duty ZIP on this board. Read your pay grade, with or without dependents.</label></li>
+        <li><label><input type="checkbox"> Security deposit, first month's rent, pet rent, and parking. Write them next to the published rate.</label></li>
+        <li><label><input type="checkbox"> Utility deposits and connection fees.</label></li>
+        <li><label><input type="checkbox"> Renters insurance, if the landlord or you want it.</label></li>
+        <li><label><input type="checkbox"> Overlap: days you may pay for the old place and the new place.</label></li>
+      </ul>
+      <p>DoD says BAH is not intended to cover all of a member's housing costs. Matching rent to the rate, or not, is your choice. This checklist does not tell you what to rent.</p>
+    </section>
+
+    <section class="card check-card">
+      <h2>Questions for finance, not answers</h2>
+      <ul class="checks">
+        <li><label><input type="checkbox"> When does BAH for the new duty station start?</label></li>
+        <li><label><input type="checkbox"> Is temporary lodging expense authorized, and for how many days on these orders?</label></li>
+        <li><label><input type="checkbox"> What is the dislocation allowance for your grade and dependency status? Do not estimate it from an old chart.</label></li>
+        <li><label><input type="checkbox"> Is an advance of pay available, and what are the repayment terms? Asking is not the same as taking it.</label></li>
+      </ul>
+      <p>Pay questions go to your servicing finance office or <a href="{{ links.mypay }}">myPay</a>. Housing-allowance rules are in <a href="{{ links.fmr_chapter }}">DoD FMR Volume 7A, Chapter 26</a>.</p>
+    </section>
+
+    <section class="card check-card">
+      <h2>Small costs that show up anyway</h2>
+      <ul class="checks">
+        <li><label><input type="checkbox"> Driver license and vehicle registration in the new state.</label></li>
+        <li><label><input type="checkbox"> School records, medical records, and prescriptions for the gap.</label></li>
+        <li><label><input type="checkbox"> Locks, a shower curtain, and the first grocery run. Price them. They are not in the rate file.</label></li>
+        <li><label><input type="checkbox"> A spouse's gap in pay, if that applies. This site has no figure for it.</label></li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>Official pages</h2>
+      <ul>
+        <li><a href="{{ links.bah_page }}">DTMO: Basic Allowance for Housing</a></li>
+        <li><a href="{{ links.lookup_page }}">DTMO: BAH rate lookup</a></li>
+        <li><a href="{{ links.source_page }}">DTMO: BAH rate files</a></li>
+        <li><a href="{{ links.onesource }}">Military OneSource: moving</a></li>
+        <li><a href="{{ links.fmr_chapter }}">DoD FMR, Volume 7A, Chapter 26 (PDF)</a></li>
+      </ul>
+    </section>
+  </div>
+  <div class="side-col">
+    {{ signup() }}
+    <section class="card">
+      <h2>Affiliate placeholders</h2>
+      <p>Truck rental and a savings-account marketplace. Not reviews. Not a ranking. Not investment advice. Links are not connected yet.</p>
+    </section>
+    {{ affiliates("pcs") }}
+  </div>
+</div>
+{% endblock %}

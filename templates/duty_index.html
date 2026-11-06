@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Duty stations</h1>
+<p class="lede">Each named housing area is the DoD label for a duty-station area, often a city or a base. County cost groups cover ZIPs that are not inside a named area. This is not a ranking and not a review.</p>
+<input class="search solo" type="search" placeholder="Filter by base, city, or code" aria-label="Filter duty stations" data-filter-target=".area-link">
+{% for group in groups %}
+<h2 class="mt">{{ group.title }}</h2>
+<ul class="cards">
+{% for mha in group.mhas %}
+<li><a class="area-link" data-q="{{ (mha.code ~ ' ' ~ mha.name ~ ' ' ~ mha.alias_text)|lower }}" href="{{ base }}/duty-station/{{ mha.slug }}/"><b>{{ mha.name }}</b><span>{{ mha.code }}{% if mha.alias_text %} · also {{ mha.alias_text }}{% endif %}</span></a></li>
+{% endfor %}
+</ul>
+{% endfor %}
+{% endblock %}

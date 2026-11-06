@@ -1,0 +1,28 @@
+{% extends "base.html" %}{% from "_macros.html" import rate_table, zip_list, source_line, changed_note, county_note with context %}
+{% block content %}
+<p class="crumbs"><a href="{{ base }}/">Home</a> · <a href="{{ base }}/duty-station/">Duty stations</a> · {{ heading }}</p>
+<h1>{{ heading }}</h1>
+{% if alias_of %}
+<p class="lede">{{ heading }} is part of the {{ mha.name }} housing area ({{ mha.code }}). The BAH below is the published rate for that area. This page is not a rating of the installation.</p>
+{% elif mha.kind == "county" %}
+<p class="lede">Duty ZIPs in {{ mha.name }} ({{ mha.code }}) use the rates below. There is no base name on this row. This page is not a rating of the counties in the group.</p>
+{% else %}
+<p class="lede">Duty station area: {{ mha.name }} ({{ mha.code }}). The table is the {{ rate_year }} BAH for this housing area, with dependents and without. This page is not a rating of the installation or the town.</p>
+{% endif %}
+{{ county_note(mha) }}
+{{ changed_note(mha) }}
+{% if aliases and not alias_of %}
+<p>People also look this area up as {% for a in aliases %}<a href="{{ base }}/duty-station/{{ a.slug }}/">{{ a.label }}</a>{% if not loop.last %}{% if loop.revindex0 == 1 %} and {% else %}, {% endif %}{% endif %}{% endfor %}.</p>
+{% endif %}
+{{ rate_table(mha) }}
+<p class="actions"><a class="btn" href="{{ base }}/pcs/">PCS move checklist</a> <a class="btn ghost" href="{{ base }}/mha/{{ mha.code|lower }}/">Housing-area page</a></p>
+<h2>Before you price a place</h2>
+<ul>
+  <li>Confirm the duty ZIP, then read the row for your pay grade.</li>
+  <li>Write the rent, deposit, and utilities next to that rate. DoD says BAH is not intended to cover every housing dollar.</li>
+  <li>Ask finance when the new rate starts. This page does not.</li>
+</ul>
+<h2>ZIP codes in this area</h2>
+{{ zip_list(mha) }}
+{{ source_line() }}
+{% endblock %}

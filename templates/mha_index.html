@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Housing areas</h1>
+<p class="lede">Every military housing area and county cost group in the {{ rate_year }} DoD file. Open an area for the full pay-grade table.</p>
+<input class="search solo" type="search" placeholder="Filter by name or code" aria-label="Filter housing areas" data-filter-target=".area-link">
+{% for group in groups %}
+<h2 class="mt">{{ group.title }}</h2>
+<ul class="cards">
+{% for mha in group.mhas %}
+<li><a class="area-link" data-q="{{ (mha.code ~ ' ' ~ mha.name ~ ' ' ~ mha.state)|lower }}" href="{{ base }}/mha/{{ mha.code|lower }}/"><b>{{ mha.name }}</b><span>{{ mha.code }} · {{ mha.zips|length | comma }} ZIPs</span></a></li>
+{% endfor %}
+</ul>
+{% endfor %}
+{% endblock %}

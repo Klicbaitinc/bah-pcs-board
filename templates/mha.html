@@ -1,0 +1,14 @@
+{% extends "base.html" %}{% from "_macros.html" import rate_table, zip_list, source_line, changed_note, county_note with context %}
+{% block content %}
+<p class="crumbs"><a href="{{ base }}/">Home</a> · <a href="{{ base }}/mha/">Housing areas</a> · {{ mha.code }}</p>
+<h1>{{ mha.name }}</h1>
+<p class="lede">MHA {{ mha.code }}. Monthly BAH for {{ rate_year }}, with dependents and without, by pay grade.</p>
+{{ county_note(mha) }}
+{{ changed_note(mha) }}
+{{ rate_table(mha) }}
+<p class="actions"><a class="btn" href="{{ base }}/duty-station/{{ mha.slug }}/">Duty-station page for this area</a> <a class="btn ghost" href="{{ base }}/pcs/">PCS checklist</a></p>
+<h2>ZIP codes</h2>
+<p>These duty ZIPs map to {{ mha.code }} in {{ members.zip_mha }}.</p>
+{{ zip_list(mha) }}
+{{ source_line() }}
+{% endblock %}

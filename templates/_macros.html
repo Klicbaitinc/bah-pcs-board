@@ -1,0 +1,98 @@
+{% macro rate_table(mha) %}
+<div class="table-tools">
+  <label class="pick">Highlight a pay grade
+    <select class="grade-pick" data-table="rates-{{ mha.code }}">
+      <option value="">None</option>
+      {% for row in rate_rows(mha) %}
+      <option value="{{ row.grade }}">{{ row.label }}</option>
+      {% endfor %}
+    </select>
+  </label>
+</div>
+<div class="table-scroll">
+<table class="rates" id="rates-{{ mha.code }}">
+<caption>Monthly BAH for {{ mha.name }} ({{ mha.code }}), rate year {{ rate_year }}. The year column is the monthly rate times 12.</caption>
+<thead>
+<tr>
+  <th>Pay grade</th>
+  <th>With dependents</th>
+  <th>Without dependents</th>
+</tr>
+</thead>
+<tbody>
+{% for row in rate_rows(mha) %}
+{% if row.first %}
+<tr class="group"><th colspan="3" scope="colgroup">{{ row.group }}</th></tr>
+{% endif %}
+<tr data-grade="{{ row.grade }}">
+  <th scope="row">{{ row.label }}</th>
+  <td class="num"><b>{{ row.with_month | money }}</b><span class="annual">{{ row.with_year | money }} a year</span></td>
+  <td class="num"><b>{{ row.without_month | money }}</b><span class="annual">{{ row.without_year | money }} a year</span></td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+<p class="muted small">DoD publishes two rates: with dependents and without dependents. The number of dependents does not add another rate. O-1E, O-2E, and O-3E are officers who had enlisted service. {% if senior_collapsed %}O-8, O-9, and O-10 repeat the O-7 amount in this file, so they are one row: O-7 and above.{% endif %}</p>
+{% endmacro %}
+
+{% macro zip_list(mha) %}
+{% if mha.zips|length > 80 %}
+<details class="zips-fold">
+  <summary>{{ mha.zips|length | comma }} ZIP codes use this rate</summary>
+  <ul class="zips">{% for z in mha.zips %}<li><a href="{{ base }}/zip/{{ z }}/">{{ z }}</a></li>{% endfor %}</ul>
+</details>
+{% elif mha.zips %}
+<p>{{ mha.zips|length }} ZIP code{% if mha.zips|length != 1 %}s{% endif %} in the DoD file for this area:</p>
+<ul class="zips">{% for z in mha.zips %}<li><a href="{{ base }}/zip/{{ z }}/">{{ z }}</a></li>{% endfor %}</ul>
+{% else %}
+<p>No ZIP codes in the crosswalk point at this code.</p>
+{% endif %}
+{% endmacro %}
+
+{% macro source_line() %}
+<p class="muted small source-line">Source files: {{ members.with_dependents }} (with dependents), {{ members.without_dependents }} (without dependents), {{ members.zip_mha }}, {{ members.mha_names }}. Bundle: <a href="{{ source_url }}">BAH-ASCII-{{ rate_year }}.zip</a> from the <a href="{{ source_page }}">DoD BAH rate-files page</a>. SHA-256 <span class="mono">{{ sha256 }}</span>.</p>
+{% endmacro %}
+
+{% macro changed_note(mha) %}
+{% if mha.changed_vs_old %}
+<p class="note">For {{ mha.code }} only, the current rate files differ from the copies in the same ZIP that are marked old. This table uses the current files, not the old copies. Confirm {{ mha.name }} on the <a href="{{ links.lookup_page }}">official BAH lookup</a> before you rely on it.</p>
+{% endif %}
+{% endmacro %}
+
+{% macro county_note(mha) %}
+{% if mha.kind == "county" %}
+<p class="note">{{ mha.name }} is a county cost group in the DoD file (code {{ mha.code }}), not a named installation. ZIPs outside a named military housing area are mapped here. The rate is still the published BAH for those duty ZIPs.</p>
+{% endif %}
+{% endmacro %}
+
+{% macro affiliates(placement) %}
+<div class="stack">
+{% for item in affiliate_items %}
+<aside class="card offer" aria-label="Affiliate placeholder: {{ item.name }}">
+  <p class="kicker">{{ item.kicker }}</p>
+  <h3 class="offer-title">{{ item.headline }}</h3>
+  <p>{{ item.body }}</p>
+  {% if item.url %}
+  <p class="offer-actions"><a class="btn" href="{{ offer_href(item.url, placement) }}" rel="sponsored noopener" target="_blank">{{ item.button }}</a></p>
+  {% else %}
+  <p class="offer-actions"><span class="btn disabled">{{ item.button }}</span></p>
+  {% endif %}
+  <p class="disclosure">{{ item.disclosure }}</p>
+</aside>
+{% endfor %}
+<p class="muted small"><a href="{{ base }}/disclosure/">Read the full affiliate disclosure</a>.</p>
+</div>
+{% endmacro %}
+
+{% macro signup() %}
+<section class="card signup" id="newsletter">
+  <h2>{{ newsletter.heading }}</h2>
+  <p>{{ newsletter.body }}</p>
+  <form class="signup-form" action="#" method="post">
+    <label class="sr" for="newsletter-email">Email address</label>
+    <input id="newsletter-email" type="email" disabled placeholder="Email list not open" aria-disabled="true">
+    <button type="button" disabled>Not open yet</button>
+  </form>
+</section>
+{% endmacro %}

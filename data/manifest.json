@@ -1,0 +1,26 @@
+{
+  "year": 2026,
+  "sha256": "5446fed831e125c23cc6a407dcde4cae541f108e90ac852aaadeec0aa11e515f",
+  "bytes": 302657,
+  "filename": "BAH-ASCII-2026.zip",
+  "source_page": "https://www.travel.dod.mil/Allowances/Basic-Allowance-for-Housing/BAH-Rate-Files-Alt",
+  "source_url": "https://www.travel.dod.mil/Portals/119/Documents/BAH/BAH_Rates_All_Locations_All_Pay_Grades/ASCII/BAH-ASCII-2026.zip",
+  "source_note": "Downloaded from the DTMO document library that the BAH rate-files page uses for its ASCII 'all locations, all pay grades' ZIP. Tables use bahw (with dependents), bahwo (without dependents), sorted_zipmha, and mhanames. Members marked old are ignored.",
+  "alt_page_status": 200,
+  "retrieved_at": "2026-11-06T16:46:09Z",
+  "last_modified": "2026-05-15T17:27:20Z",
+  "mhas": 338,
+  "zips": 40959,
+  "members_used": {
+    "zip_mha": "sorted_zipmha26.txt",
+    "with_dependents": "bahw26.txt",
+    "without_dependents": "bahwo26.txt",
+    "mha_names": "mhanames26.txt"
+  },
+  "areas_changed_vs_old": [
+    "TX270"
+  ],
+  "warnings": [
+    "214 ZIP codes map to an MHA with no rate row (usually XX499)."
+  ]
+}
