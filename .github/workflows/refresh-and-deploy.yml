@@ -76,8 +76,9 @@ jobs:
           grep -q "href=\"${public}/\"" site/index.html
           grep -q "Sitemap: ${public}/sitemap.xml" site/robots.txt
           grep -q "<loc>${public}/</loc>" site/sitemap.xml
-          grep -q "<loc>${public}/zip/92101/</loc>" site/sitemap.xml
-          grep -F -q '$3,975' site/zip/92101/index.html
+          grep -q "<loc>${public}/mha/ca038/</loc>" site/sitemap.xml
+          grep -q 92101 site/static/search.json
+          grep -F -q '$3,975' site/mha/ca038/index.html
           grep -q "not investment advice" site/index.html
           grep -q "FlexOffers" site/disclosure/index.html
           test -f site/pcs/index.html
@@ -123,3 +124,5 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
+        with:
+          timeout: 1200000

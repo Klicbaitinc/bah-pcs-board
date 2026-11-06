@@ -76,7 +76,7 @@ table.rates{width:100%;border-collapse:collapse;font-variant-numeric:tabular-num
 .rates tr.group th{background:#f3efe7;font-size:.8rem;text-transform:uppercase;letter-spacing:.04em;color:#3d4a5c}
 .rates tr.hit td,.rates tr.hit th{background:#e7f0ea}
 .zips{display:flex;flex-wrap:wrap;gap:6px;padding:0;margin:8px 0 0;list-style:none}
-.zips a{display:inline-block;background:#fff;border:1px solid var(--line);border-radius:8px;padding:4px 8px;color:var(--ink);font-variant-numeric:tabular-nums}
+.zips a,.zips span{display:inline-block;background:#fff;border:1px solid var(--line);border-radius:8px;padding:4px 8px;color:var(--ink);font-variant-numeric:tabular-nums}
 .zips-fold{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:10px 12px}
 .zips-fold summary{cursor:pointer;font-weight:650}
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:8px;padding:0;margin:0;list-style:none}

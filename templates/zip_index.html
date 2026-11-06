@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 <h1>ZIP codes</h1>
-<p class="lede">The {{ rate_year }} DoD file lists {{ n_zips | comma }} ZIP codes. {{ n_rated | comma }} of them map to a housing area with a rate. {{ n_unrated | comma }} map to a code with no rate row. Each of those ZIPs has its own page.</p>
-<p>Search a duty ZIP from the box at the top of the page. You can also open a <a href="{{ base }}/mha/">housing area</a> and follow the ZIP links on that page.</p>
+<p class="lede">The {{ rate_year }} DoD file lists {{ n_zips | comma }} ZIP codes. {{ n_rated | comma }} of them map to a housing area with a rate. {{ n_unrated | comma }} map to a code with no rate row.</p>
+<p>Search a duty ZIP from the box at the top of the page. A match opens that ZIP's housing-area page, which has every pay grade, with dependents and without. ZIPs mapped to XX499 have no rate row in the file.</p>
 <p class="note">Use the ZIP of the permanent duty station. ZIPs are not ranked.</p>
 {% endblock %}

@@ -46,7 +46,7 @@ Copies marked `old` inside the ZIP are not shown. A page notes it when the curre
 ## Pages
 
 * `/` search
-* `/zip/{zip}/` one page per ZIP in the DoD file
+* `/zip/` search across every ZIP in the DoD file; a match opens that ZIP's housing-area page
 * `/mha/{code}/` full rate table
 * `/duty-station/{slug}/` the same rates framed as a duty station, not a review
 * `/pcs/` move-cost checklist

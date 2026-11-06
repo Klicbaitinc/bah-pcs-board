@@ -37,25 +37,28 @@ class BuildSiteTest(unittest.TestCase):
         self.assertIn("Email list not open", html)
 
     def test_zip_san_diego(self):
-        html = self.read("zip", "92101", "index.html")
-        self.assertIn("ZIP 92101", html)
+        html = self.read("mha", "ca038", "index.html")
         self.assertIn("San Diego, CA", html)
         self.assertIn("CA038", html)
         self.assertIn("$3,975", html)
         self.assertIn("$3,147", html)
         self.assertIn("With dependents", html)
         self.assertIn("Without dependents", html)
-        self.assertIn(f'href="{PUBLIC}/zip/92101/"', html)
+        self.assertIn("92101", html)
+        index = self.read("static", "search.json")
+        self.assertIn('"92101","CA038"', index)
 
     def test_zip_bragg_and_unrated(self):
-        bragg = self.read("zip", "28310", "index.html")
+        bragg = self.read("mha", "nc182", "index.html")
         self.assertIn("$1,806", bragg)
         self.assertIn("$1,527", bragg)
         self.assertIn("Fort Bragg/Pope, NC", bragg)
-        unrated = self.read("zip", "00601", "index.html")
-        self.assertIn("XX499", unrated)
-        self.assertIn("no row", unrated)
-        self.assertNotIn("$1,806", unrated)
+        self.assertIn("28310", bragg)
+        index = self.read("static", "search.json")
+        self.assertIn('"00601","XX499"', index)
+        zip_index = self.read("zip", "index.html")
+        self.assertIn("XX499", zip_index)
+        self.assertIn("no rate row", zip_index)
 
     def test_tx270_uses_current_file(self):
         html = self.read("mha", "tx270", "index.html")
@@ -93,7 +96,8 @@ class BuildSiteTest(unittest.TestCase):
         self.assertIn(f"Sitemap: {PUBLIC}/sitemap.xml", robots)
         sitemap = self.read("sitemap.xml")
         self.assertIn(f"<loc>{PUBLIC}/</loc>", sitemap)
-        self.assertIn(f"<loc>{PUBLIC}/zip/92101/</loc>", sitemap)
+        self.assertIn(f"<loc>{PUBLIC}/zip/</loc>", sitemap)
+        self.assertNotIn("/zip/92101/", sitemap)
         self.assertIn(f"<loc>{PUBLIC}/mha/ca038/</loc>", sitemap)
         self.assertIn(f"<loc>{PUBLIC}/duty-station/san-diego-ca/</loc>", sitemap)
         self.assertIn(f"<loc>{PUBLIC}/pcs/</loc>", sitemap)
@@ -102,8 +106,10 @@ class BuildSiteTest(unittest.TestCase):
         self.assertTrue((SITE / "static" / "search.json").exists())
 
     def test_zip_page_count(self):
-        count = sum(1 for path in (SITE / "zip").iterdir() if path.is_dir())
-        self.assertEqual(count, 40959)
+        self.assertTrue((SITE / "zip" / "index.html").is_file())
+        self.assertFalse((SITE / "zip" / "92101").exists())
+        html_count = sum(1 for path in SITE.rglob("*.html"))
+        self.assertLess(html_count, 2000)
 
 
 if __name__ == "__main__":

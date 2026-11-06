@@ -60,9 +60,10 @@
         if (data.zips[i][0] === q) { code = data.zips[i][1]; break; }
       }
       if (code && data.byCode[code]) {
-        add("z" + q, resultLink(base + "/zip/" + q + "/", "ZIP " + q, data.byCode[code].n + " · " + code));
+        var area = data.byCode[code];
+        add("z" + q, resultLink(base + "/mha/" + area.c.toLowerCase() + "/", "ZIP " + q, area.n + " · " + area.c));
       } else if (code) {
-        add("z" + q, resultLink(base + "/zip/" + q + "/", "ZIP " + q, code));
+        add("z" + q, resultLink(base + "/zip/", "ZIP " + q, code + " has no BAH rate row"));
       } else {
         add("missing" + q, resultLink(base + "/zip/", "ZIP " + q + " is not in the DoD file", "Browse ZIP codes"));
       }
@@ -72,7 +73,8 @@
         if (data.zips[j][0].indexOf(q) === 0) {
           var zc = data.zips[j][1];
           var name = data.byCode[zc] ? data.byCode[zc].n : zc;
-          add("z" + data.zips[j][0], resultLink(base + "/zip/" + data.zips[j][0] + "/", "ZIP " + data.zips[j][0], name));
+          var zhref = data.byCode[zc] ? base + "/mha/" + zc.toLowerCase() + "/" : base + "/zip/";
+          add("z" + data.zips[j][0], resultLink(zhref, "ZIP " + data.zips[j][0], name));
           n++;
         }
       }

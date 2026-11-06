@@ -40,11 +40,11 @@
 {% if mha.zips|length > 80 %}
 <details class="zips-fold">
   <summary>{{ mha.zips|length | comma }} ZIP codes use this rate</summary>
-  <ul class="zips">{% for z in mha.zips %}<li><a href="{{ base }}/zip/{{ z }}/">{{ z }}</a></li>{% endfor %}</ul>
+  <ul class="zips">{% for z in mha.zips %}<li><span>{{ z }}</span></li>{% endfor %}</ul>
 </details>
 {% elif mha.zips %}
 <p>{{ mha.zips|length }} ZIP code{% if mha.zips|length != 1 %}s{% endif %} in the DoD file for this area:</p>
-<ul class="zips">{% for z in mha.zips %}<li><a href="{{ base }}/zip/{{ z }}/">{{ z }}</a></li>{% endfor %}</ul>
+<ul class="zips">{% for z in mha.zips %}<li><span>{{ z }}</span></li>{% endfor %}</ul>
 {% else %}
 <p>No ZIP codes in the crosswalk point at this code.</p>
 {% endif %}

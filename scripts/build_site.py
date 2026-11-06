@@ -277,7 +277,7 @@ def main() -> None:
 
     write("zip/index.html", "zip_index.html",
           page_title=f"BAH by ZIP code, {data.year} | {site['name']}",
-          description=f"A page for every ZIP in the {data.year} DoD BAH crosswalk, with and without dependents.",
+          description=f"Search any of the {data.year} DoD duty ZIPs. Each ZIP opens the housing area that holds its BAH rates.",
           canonical="/zip/", n_zips=len(data.zip_to_mha), n_rated=n_rated, n_unrated=n_unrated)
     pages.append(("/zip/", today))
 
@@ -335,26 +335,6 @@ def main() -> None:
         # Alias pages point their canonical tag at the primary duty-station page.
         # They stay out of the sitemap so the primary URL is the one we ask crawlers to use.
 
-    unknown_name = "UNKNOWN, NA"
-    rated_zips = 0
-    for zip_code, mha_code in data.zip_to_mha.items():
-        mha = data.mhas.get(mha_code)
-        if mha is not None:
-            write(f"zip/{zip_code}/index.html", "zip.html",
-                  page_title=f"BAH for ZIP {zip_code}, {mha.name} | {site['name']}",
-                  description=f"{data.year} BAH for duty ZIP {zip_code} in {mha.name} ({mha.code}), with and without dependents, by pay grade.",
-                  canonical=f"/zip/{zip_code}/", zip_code=zip_code, mha=mha)
-            rated_zips += 1
-        else:
-            write(f"zip/{zip_code}/index.html", "zip_unrated.html",
-                  page_title=f"No BAH rate for ZIP {zip_code} | {site['name']}",
-                  description=f"DoD maps ZIP {zip_code} to {mha_code}, which has no BAH rate row in the {data.year} file.",
-                  canonical=f"/zip/{zip_code}/", zip_code=zip_code, mha_code=mha_code,
-                  raw_name=unknown_name if mha_code == "XX499" else "")
-        pages.append((f"/zip/{zip_code}/", lastmod))
-        if rated_zips and rated_zips % 5000 == 0 and mha is not None:
-            print(f"  {rated_zips} rated ZIP pages", flush=True)
-
     areas = []
     for mha in data.mhas.values():
         areas.append({"c": mha.code, "n": mha.name, "s": mha.slug, "k": mha.kind})
@@ -374,7 +354,7 @@ def main() -> None:
     (OUT / ".nojekyll").write_text("")
     print(
         f"Built {len(pages)} sitemap URLs, {len(data.mhas)} areas, "
-        f"{len(data.zip_to_mha)} ZIP pages, {len(alias_pages)} aliases -> {OUT}"
+        f"{len(data.zip_to_mha)} ZIPs in the search index, {len(alias_pages)} aliases -> {OUT}"
     )
 
 
