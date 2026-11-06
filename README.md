@@ -66,4 +66,4 @@ Nothing here is investment advice. Raisin is not a recommendation.
 * Schedule: `20 6 * * 1` (06:20 UTC Mondays), plus every push to `main` and manual dispatch.
 * The data commit only changes `data/` and includes `[skip ci]`. The workflow ignores pushes that only touch `data/`.
 * Pages source must be **GitHub Actions**: Settings → Pages → Build and deployment → Source → GitHub Actions.
-* `actions/configure-pages` is called with `enablement: true`. Creating the site needs a token this repo's Actions integration does not have (`403 Resource not accessible by integration`). Until an admin turns Pages on, the workflow warns and skips the upload. The next run after that deploys.
+* Pages source is GitHub Actions. `actions/configure-pages` uploads the built `site/` directory on each run.
