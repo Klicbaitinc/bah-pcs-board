@@ -35,6 +35,7 @@ class BuildSiteTest(unittest.TestCase):
         self.assertNotIn("penske.com", html.lower())
         self.assertNotIn("uhaul.com", html.lower())
         self.assertIn("Email list not open", html)
+        self.assertIn('<meta name="fo-verify" content="cb6a1f96-43ed-4ccf-9899-ec44c10874a0" />', html)
 
     def test_zip_san_diego(self):
         html = self.read("mha", "ca038", "index.html")
